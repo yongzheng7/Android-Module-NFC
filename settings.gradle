@@ -1,0 +1,3 @@
+include ':module-nfc'
+include ':app'
+rootProject.name = "SNFC"
