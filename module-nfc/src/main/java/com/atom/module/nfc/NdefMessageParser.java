@@ -17,9 +17,8 @@ package com.atom.module.nfc;
 
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
-import com.atom.module.nfc.record.SmartPoster;
-import com.atom.module.nfc.record.TextRecord;
-import com.atom.module.nfc.record.UriRecord;
+
+import com.atom.module.nfc.record.*;
 
 import java.util.ArrayList;
 import java.util.List;

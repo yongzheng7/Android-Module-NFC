@@ -1,29 +1,8 @@
-/*
- * Copyright (C) 2010 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.atom.module.nfc.record;
 
-import android.app.Activity;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.LinearLayout;
 
 import com.atom.module.nfc.NdefMessageParser;
 import com.google.common.base.Charsets;
@@ -34,10 +13,9 @@ import com.google.common.collect.Iterables;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Iterables.getOnlyElement;
 
-/**
- * A representation of an NFC Forum "Smart Poster".
- */
 public class SmartPoster  {
 
     /**
@@ -82,9 +60,9 @@ public class SmartPoster  {
     private final String mType;
 
     private SmartPoster(UriRecord uri, TextRecord title, RecommendedAction action, String type) {
-        mUriRecord = Preconditions.checkNotNull(uri);
+        mUriRecord = checkNotNull(uri);
         mTitleRecord = title;
-        mAction = Preconditions.checkNotNull(action);
+        mAction = checkNotNull(action);
         mType = type;
     }
 
@@ -113,7 +91,7 @@ public class SmartPoster  {
     public static SmartPoster parse(NdefRecord[] recordsRaw) {
         try {
             Iterable<Object> records = NdefMessageParser.getRecords(recordsRaw);
-            UriRecord uri = Iterables.getOnlyElement(Iterables.filter(records, UriRecord.class));
+            UriRecord uri = getOnlyElement(Iterables.filter(records, UriRecord.class));
             TextRecord title = getFirstIfExists(records, TextRecord.class);
             RecommendedAction action = parseRecommendedAction(recordsRaw);
             String type = parseType(recordsRaw);

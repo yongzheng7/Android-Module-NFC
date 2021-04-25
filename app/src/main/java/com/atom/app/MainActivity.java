@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
             StringBuilder builder = new StringBuilder("NFC 显示").append('\n');
             for (Object obj : values
             ) {
-                builder.append(obj.toString()).append('\n');
+                builder.append(obj.getClass()).append('\n');
+                builder.append(obj.toString()).append('\n').append('\n');
             }
             nfc = builder.toString();
         });

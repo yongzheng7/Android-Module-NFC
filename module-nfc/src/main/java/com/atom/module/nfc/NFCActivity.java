@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -21,12 +20,11 @@ import android.os.Parcelable;
 import android.provider.Settings;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-
 import java.lang.ref.WeakReference;
 import java.nio.charset.Charset;
-import java.util.List;
 import java.util.Locale;
+
+import javax.annotation.Nullable;
 
 public class NFCActivity extends Activity {
 

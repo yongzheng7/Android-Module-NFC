@@ -1,0 +1,68 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+
+def ossrhUsername = "wuyongzheng"
+def ossrhPassword = "Was153523.**"
+
+def PUBLISH_GROUP_ID = 'io.github.yongzheng7' //这里可以不是直接申请时候的groupId只要开头是就可以
+
+def PUBLISH_ARTIFACT_ID = "module-nfc"
+
+def PUBLISH_VERSION = android.defaultConfig.versionName //这个是直接获取的库gradle里配置好的版本号，不用到处修改版本号，只需要维护一份就可以。
+
+//签名
+signing {
+    required { gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.groupId = PUBLISH_GROUP_ID
+            pom.artifactId = PUBLISH_ARTIFACT_ID
+            pom.version = PUBLISH_VERSION
+
+            pom.project {
+                name 'Android-Module-NFC'
+                packaging 'aar' //我这里发布的是安卓的包，所有写的aar
+                // optionally artifactId can be defined here
+                description 'Android设备采集NFC的模块'
+                url 'ject URL:https://github.com/yongzheng7/Android-Module-NFC'
+
+                scm {
+                    connection 'https://github.com/yongzheng7/Android-Module-NFC'
+                    developerConnection 'https://github.com/yongzheng7/Android-Module-NFC.git'
+                    url 'https://github.com/yongzheng7/Android-Module-NFC'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'wuyongzheng'
+                        name 'wuyongzheng'
+                        email '1055115204@qq.com'
+                    }
+                }
+            }
+        }
+    }
+}
